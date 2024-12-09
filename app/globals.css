@@ -7,8 +7,6 @@
   --foreground: #ededed;
 }
 
-
-
 body {
   color: var(--foreground);
   background: var(--background);
@@ -25,4 +23,18 @@ body {
 #root {
   height: 100vh;
   width: 100vw;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1a202c; /* Dark gray track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a5568; /* Lighter gray thumb */
+  border-radius: 5px;
 }
