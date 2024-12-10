@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSwipeable } from 'react-swipeable';
 import Question from "./UI/Question";
 import ReadingText from "./UI/ReadingText";
 import SubmitButton from "./UI/SubmitButton";
@@ -14,6 +15,7 @@ export default function Home() {
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
+  const [isReadingVisible, setIsReadingVisible] = useState(true);
 
   const readingTextContent = quizData.readingText;
   const readingTextTitle = quizData.readingTextTitle;
@@ -30,8 +32,6 @@ export default function Home() {
       ...prevAnswers,
       [`question${currentQuestionSet}_${questionNumber}`]: option,
     }));
-
-    // Mark that an answer has been selected
     setIsAnswerSelected(true);
   };
 
@@ -82,6 +82,12 @@ export default function Home() {
     );
   };
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setIsReadingVisible(false),
+    onSwipedRight: () => setIsReadingVisible(true),
+    trackMouse: true
+  });
+
   return (
     <div className="flex flex-col h-screen">
       <Header
@@ -90,9 +96,19 @@ export default function Home() {
         totalQuestions={quizData[`questions${currentQuestionSet}`].length.toString()}
         correctAnswers={correctAnswers}
       />
-      <div className=" flex flex-row h-screen">
-        <ReadingText content={readingTextContent} title={readingTextTitle} />
-        <div className="w-1/2 p-4 overflow-y-auto">
+      <div className="relative lg:w-1/2 md:1/2 sm:h-screen" {...handlers}>
+        <div 
+          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+            isReadingVisible ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <ReadingText content={readingTextContent} title={readingTextTitle} />
+        </div>
+        <div 
+          className={`absolute lg:w-1/2 md:1/2 sm:h-screeninset-0 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
+            isReadingVisible ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
           <h2 className="text-xl font-bold mb-4">
             Question Set {currentQuestionSet}
           </h2>
