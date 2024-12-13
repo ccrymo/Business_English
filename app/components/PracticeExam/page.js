@@ -1,7 +1,6 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
-import { useSwipeable } from 'react-swipeable';
+import { useSwipeable } from "react-swipeable";
 import Question from "./UI/Question";
 import ReadingText from "./UI/ReadingText";
 import SubmitButton from "./UI/SubmitButton";
@@ -21,10 +20,12 @@ export default function Home() {
   const readingTextTitle = quizData.readingTextTitle;
 
   useEffect(() => {
-    const totalSets = Object.keys(quizData).filter((key) =>
-      key.startsWith("questions")
-    ).length;
-    setTotalQuestions(totalSets);
+    // Calculate total questions across all sets
+    const totalQuestionsCount = Object.keys(quizData)
+      .filter((key) => key.startsWith("questions"))
+      .reduce((total, key) => total + quizData[key].length, 0);
+    
+    setTotalQuestions(totalQuestionsCount);
   }, []);
 
   const handleSelect = (questionNumber, option) => {
@@ -41,7 +42,8 @@ export default function Home() {
     const currentQuestion = questionSet[currentQuestionIndex];
 
     // Check if the selected answer is correct
-    const selectedAnswer = answers[`question${currentQuestionSet}_${currentQuestion.number}`];
+    const selectedAnswer =
+      answers[`question${currentQuestionSet}_${currentQuestion.number}`];
     if (selectedAnswer === currentQuestion.correctAnswer) {
       setCorrectAnswers((prev) => prev + 1);
     }
@@ -49,7 +51,7 @@ export default function Home() {
     if (currentQuestionIndex < questionSet.length - 1) {
       // Move to the next question in the current set
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    } else if (currentQuestionSet < totalQuestions) {
+    } else if (currentQuestionSet < Object.keys(quizData).filter(key => key.startsWith("questions")).length) {
       // Move to the next question set
       setCurrentQuestionSet((prevSet) => prevSet + 1);
       setCurrentQuestionIndex(0);
@@ -63,12 +65,22 @@ export default function Home() {
     setIsAnswerSelected(false);
   };
 
+  // Calculate current overall question number
+  const getCurrentOverallQuestionNumber = () => {
+    let previousQuestionsCount = 0;
+    
+    for (let i = 1; i < currentQuestionSet; i++) {
+      previousQuestionsCount += quizData[`questions${i}`].length;
+    }
+    
+    return previousQuestionsCount + currentQuestionIndex + 1; // +1 because index is zero-based
+  };
+
   const renderQuestions = () => {
     const questionSet = quizData[`questions${currentQuestionSet}`];
     if (!questionSet || currentQuestionIndex >= questionSet.length) return null;
 
     const q = questionSet[currentQuestionIndex];
-    const selectedAnswer = answers[`question${currentQuestionSet}_${q.number}`];
     return (
       <Question
         key={q.number}
@@ -77,7 +89,7 @@ export default function Home() {
         onSelect={(option) => handleSelect(q.number, option)}
         type={q.title ? q.title : "Multiple Choice"}
         instruction={q.instruction}
-        selectedAnswer={selectedAnswer}
+        selectedAnswer={answers[`question${currentQuestionSet}_${q.number}`]}
       />
     );
   };
@@ -85,35 +97,33 @@ export default function Home() {
   const handlers = useSwipeable({
     onSwipedLeft: () => setIsReadingVisible(false),
     onSwipedRight: () => setIsReadingVisible(true),
-    trackMouse: true
+    trackMouse: true,
   });
 
   return (
     <div className="flex flex-col h-screen">
       <Header
-        title="Reading Comprehension Quiz"
-        currentQuestion={(currentQuestionIndex + 1).toString()}
-        totalQuestions={quizData[`questions${currentQuestionSet}`].length.toString()}
+        currentQuestion={getCurrentOverallQuestionNumber()}
+        totalQuestions={totalQuestions}
         correctAnswers={correctAnswers}
       />
-      <div className="relative lg:w-1/2 md:1/2 sm:h-screen" {...handlers}>
-        <div 
-          className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
-            isReadingVisible ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
-          <ReadingText content={readingTextContent} title={readingTextTitle} />
-        </div>
-        <div 
-          className={`absolute lg:w-1/2 md:1/2 sm:h-screeninset-0 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
-            isReadingVisible ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          <h2 className="text-xl font-bold mb-4">
-            Question Set {currentQuestionSet}
-          </h2>
-          {renderQuestions()}
-          <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+      <div className="flex-1 overflow-hidden pt-16"> 
+        <div className="relative h-full" {...handlers}>
+          <div
+            className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+              isReadingVisible ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <ReadingText content={readingTextContent} title={readingTextTitle} />
+          </div>
+          <div
+            className={`absolute mt-20 inset-2 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
+              isReadingVisible ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            {renderQuestions()}
+            <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+          </div>
         </div>
       </div>
     </div>

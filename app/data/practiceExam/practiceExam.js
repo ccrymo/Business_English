@@ -73,20 +73,20 @@ const quizData = {
   ],
   questions2: [
     {
-      number: 1,
+      number: 11,
       question:
         "What is the name of the company offering the train trip from Paris to Tokyo?",
       options: ["EuroRail", "JapanRail", "AsiaExpress", "TokyoTrain"],
       correctAnswer: "JapanRail",
     },
     {
-      number: 2,
+      number: 12,
       question: "Who is the owner of the company?",
       options: ["Mr. Suzuki", "Mr. Yamamoto", "Mr. Tanaka", "Mr. Nakamura"],
       correctAnswer: "Mr. Tanaka",
     },
     {
-      number: 3,
+      number: 13,
       question: "Name three countries mentioned as stops during the journey.",
       options: [
         "Germany, Russia, China",
@@ -97,7 +97,7 @@ const quizData = {
       correctAnswer: "Germany, Russia, China",
     },
     {
-      number: 4,
+      number: 14,
       question:
         "List three landmarks that travelers can visit during the trip.",
       options: [
@@ -109,7 +109,7 @@ const quizData = {
       correctAnswer: "Eiffel Tower, Great Wall of China, Mount Fuji",
     },
     {
-      number: 5,
+      number: 15,
       question:
         "What future plan does the company have for their train service?",
       options: [
@@ -121,31 +121,31 @@ const quizData = {
       correctAnswer: "To offer a return trip from Tokyo to Paris",
     },
     {
-      number: 6,
+      number: 16,
       question: "How many countries do passengers visit during the journey?",
       options: ["10", "12", "15", "18"],
       correctAnswer: "15",
     },
     {
-      number: 7,
+      number: 17,
       question: "What is the age of the youngest passenger?",
       options: ["18", "20", "25", "30"],
       correctAnswer: "20",
     },
     {
-      number: 8,
+      number: 18,
       question: "What is the age of the oldest passenger?",
       options: ["65", "70", "75", "80"],
       correctAnswer: "75",
     },
     {
-      number: 9,
+      number: 19,
       question: "In which year did the first train leave Paris?",
       options: ["2022", "2023", "2024", "2025"],
       correctAnswer: "2024",
     },
     {
-      number: 10,
+      number: 20,
       question: "How often does JapanRail run a train from Paris to Tokyo?",
       options: [
         "Every month",
@@ -156,19 +156,19 @@ const quizData = {
       correctAnswer: "Every two months",
     },
     {
-      number: 11,
+      number: 21,
       question: "How many passengers can the train carry?",
       options: ["30", "40", "50", "60"],
       correctAnswer: "50",
     },
     {
-      number: 12,
+      number: 22,
       question: "How long is the journey in miles?",
       options: ["6,000 miles", "7,000 miles", "8,000 miles", "9,000 miles"],
       correctAnswer: "8,000 miles",
     },
     {
-      number: 13,
+      number: 23,
       question: "In which month did the first train leave Paris?",
       options: ["March", "April", "May", "June"],
       correctAnswer: "June",
@@ -176,20 +176,20 @@ const quizData = {
   ],
   questions3: [
     {
-      number: 1,
+      number: 24,
       question:
         "What is the name of the company offering the train trip from Paris to Tokyo?",
       options: ["EuroRail", "JapanRail", "AsiaExpress", "TokyoTrain"],
       correctAnswer: "JapanRail",
     },
     {
-      number: 2,
+      number: 25,
       question: "Who is the owner of the company?",
       options: ["Mr. Suzuki", "Mr. Yamamoto", "Mr. Tanaka", "Mr. Nakamura"],
       correctAnswer: "Mr. Tanaka",
     },
     {
-      number: 3,
+      number: 26,
       question: "Name three countries mentioned as stops during the journey.",
       options: [
         "Germany, Russia, China",
@@ -200,7 +200,7 @@ const quizData = {
       correctAnswer: "Germany, Russia, China",
     },
     {
-      number: 4,
+      number: 27,
       question:
         "List three landmarks that travelers can visit during the trip.",
       options: [
@@ -212,7 +212,7 @@ const quizData = {
       correctAnswer: "Eiffel Tower, Great Wall of China, Mount Fuji",
     },
     {
-      number: 5,
+      number: 28,
       question:
         "What future plan does the company have for their train service?",
       options: [
@@ -227,7 +227,7 @@ const quizData = {
 
   questions4: [
     {
-      number: 1,
+      number: 29,
       question:
         "Which of the following pieces of information is NOT mentioned in the text?",
       options: [
@@ -242,27 +242,27 @@ const quizData = {
 
   questions5: [
     {
-      number: 1,
+      number: 30,
       question:
         "Apple and Samsung are prominent ______ in the mobile phone market.",
       options: ["rivals", "neat", "cheerful", "specialist"],
       correctAnswer: "rivals",
     },
     {
-      number: 2,
+      number: 31,
       question:
         "Sarah is very ______, so her workspace is always tidy, and she never overlooks a deadline.",
       options: ["rivals", "neat", "cheerful", "specialist"],
       correctAnswer: "neat",
     },
     {
-      number: 3,
+      number: 32,
       question: "During the celebration, attendees wear ______ clothes.",
       options: ["rivals", "neat", "cheerful", "specialist"],
       correctAnswer: "cheerful",
     },
     {
-      number: 4,
+      number: 33,
       question:
         "John is an ______ in mathematics and can quickly tackle challenging problems.",
       options: ["rivals", "neat", "cheerful", "specialist"],
