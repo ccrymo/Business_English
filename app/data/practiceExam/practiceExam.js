@@ -5,8 +5,6 @@ const quizData = {
   questions1: [
     {
       number: 1,
-      title: "Number Questions",
-      instruction: "Choose the correct answer (1 point each)",
       question: "How long does the train journey from Paris to Tokyo take?",
       options: ["30 days", "45 days", "60 days", "90 days"],
       correctAnswer: "60 days",
@@ -268,35 +266,162 @@ const quizData = {
       options: ["rivals", "neat", "cheerful", "specialist"],
       correctAnswer: "specialist",
     },
-  ],
+  
 
-  question6: [
+  
     {
-      name: "United Qahtani Project",
-      plannedBudget: "60,000 SAR",
-      plannedFinishDate: "5th February",
-      actualFinishDate: "3rd February",
-      actualSpent: "50,000 SAR",
+      number: 34,
       question:
-        "United Qahtani Project finished on 3rd February and spent 50,000 SAR. It was ____ and ____",
+        "United Qahtani Project planned to finish on the 5th February and its budget was 75,000 SAR. It finished on the 3rd February and spent only 50,000 SAR. It was ____ and ____",
+      options: [
+        "under budget / on time",
+        "over budget / ahead of schedule ",
+        "over budget / behind schedule",
+      ],
+      correctAnswer: "under budget / on time",
+    },
+
+    {
+      number: 35,
+      question:
+        "Aramco project was planned to finish on the 1st of May and its budget was $5,000,000. It finished on 21st May and spent $8,000,000. It was ____ and ____",
+      options: [
+        "under budget / on time",
+        "over budget / behind schedule",
+        "over budget / ahead of schedule",
+      ],
+      correctAnswer: "over budget / behind schedule",
+    },
+
+    {
+      number: 36,
+      question:
+        "Project Gamma project was planned to end on the 5th of August and its budget was $1,000,000. It finished on 1st August but spent $2,000,000. It was ____ and ____",
+      options: [
+        "under budget / on time",
+        "over budget / behind schedule",
+        "over budget / ahead of schedule",
+      ],
+      correctAnswer: "over budget / ahead of schedule",
+    },
+
+    {
+      number: 37,
+      question:
+        "Fatima is an ____________________ in computer science and can debug complex code quickly.",
+      options: ["expert", "amateur", "student", "teacher"],
+      correctAnswer: "expert",
     },
     {
-      name: "Aramco Project",
-      plannedBudget: "$7,500,000",
-      plannedFinishDate: "15th May",
-      actualFinishDate: "21st May",
-      actualSpent: "$8,000,000",
+      number: 38,
       question:
-        "Aramco finished on 21st May and spent $8,000,000. It was ____ and ____",
+        "Creating a realistic _____ helps manage financial resources effectively.",
+      options: ["budget", "thinking", "planner", "strategy"],
+      correctAnswer: "budget",
     },
     {
-      name: "Project Gamma",
-      plannedBudget: "$1,000,000",
-      plannedFinishDate: "5th August",
-      actualFinishDate: "1st August",
-      actualSpent: "$900,000",
+      number: 39,
       question:
-        "Project Gamma finished on 1st August and spent $900,000. It was ____ and ____",
+        "Google and Huawei are major ____________________ in the global tech market.",
+      options: ["competitors", "investors", "suppliers", "retailers"],
+      correctAnswer: "competitors",
+    },
+    {
+      number: 40,
+      question:
+        "An Event _____ is responsible for organizing and managing special gatherings.",
+      options: ["planner (manager)", "budget", "surge", "thinking"],
+      correctAnswer: "planner (manager)",
+    },
+    {
+      number: 41,
+      question:
+        "During Eid celebrations, people wear ____________________ clothes and enjoy traditional dishes.",
+      options: ["festive", "casual", "sports", "work"],
+      correctAnswer: "festive",
+    },
+    {
+      number: 42,
+      question:
+        "Ahmed is very ____________________, so his files are always in order, and he completes tasks ahead of schedule.",
+      options: ["organized", "creative", "talkative", "forgetful"],
+      correctAnswer: "organized",
+    },
+    {
+      number: 43,
+      question:
+        "_____ thinking is essential for developing unique marketing campaigns.",
+      options: ["creative", "stagnation", "budgeting", "deadlines"],
+      correctAnswer: "creative",
+    },
+    {
+      number: 44,
+      question:
+        "The new shopping mall had a big ____________________ in visitors during its opening week.",
+      options: ["increase", "decrease", "manage", "sell"],
+      correctAnswer: "increase",
+    },
+    {
+      number: 45,
+      question:
+        "Marketing _____ involves strategically promoting products to increase sales.",
+      options: ["strategy", "event", "decline", "deadline"],
+      correctAnswer: "strategy",
+    },
+    {
+      number: 46,
+      question: "_____ is important for timely delivery to clients.",
+      options: ["deadline", "strategy", "surge", "event"],
+      correctAnswer: "deadline",
+    },
+    {
+      number: 47,
+      question:
+        "The company sends an ____________________ to the customer after delivering the products.",
+      options: ["invoice", "email", "package", "letter"],
+      correctAnswer: "invoice",
+    },
+    {
+      number: 48,
+      question:
+        "We need to find a reliable ____________________ for our raw materials.",
+      options: ["supplier", "customer", "manager", "worker"],
+      correctAnswer: "supplier",
+    },
+    {
+      number: 49,
+      question:
+        "When traveling to Japan, you need to exchange your money for the local ____________________.",
+      options: ["currency", "food", "clothes", "language"],
+      correctAnswer: "currency",
+    },
+    {
+      number: 50,
+      question:
+        "The store offers a 20% ____________________ on all items during the sale.",
+      options: ["discount", "increase", "tax", "fee"],
+      correctAnswer: "discount",
+    },
+    {
+      number: 51,
+      question:
+        "Employees usually ____________________ their bills at the end of each month.",
+      options: ["pay", "receive", "write", "cancel"],
+      correctAnswer: "pay",
+    },
+    {
+      number: 52,
+      question:
+        "The cost of ____________________ is a significant expense for many businesses.",
+      options: ["labour", "paper", "electricity", "water"],
+      correctAnswer: "labour",
+    },
+    {
+      number: 53,
+      question:
+        "Our main ____________________ is to increase customer satisfaction this year.",
+      options: ["aim", "problem", "building", "machine"],
+      correctAnswer: "aim",
     },
   ],
 };

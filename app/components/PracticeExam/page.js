@@ -5,6 +5,7 @@ import Question from "./UI/Question";
 import ReadingText from "./UI/ReadingText";
 import SubmitButton from "./UI/SubmitButton";
 import Header from "./UI/Header";
+import CompletionModal from "./UI/CompletionModal";
 import quizData from "../../data/practiceExam/practiceExam";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
   const [isReadingVisible, setIsReadingVisible] = useState(true);
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
   const readingTextContent = quizData.readingText;
   const readingTextTitle = quizData.readingTextTitle;
@@ -24,7 +26,7 @@ export default function Home() {
     const totalQuestionsCount = Object.keys(quizData)
       .filter((key) => key.startsWith("questions"))
       .reduce((total, key) => total + quizData[key].length, 0);
-    
+
     setTotalQuestions(totalQuestionsCount);
   }, []);
 
@@ -51,14 +53,17 @@ export default function Home() {
     if (currentQuestionIndex < questionSet.length - 1) {
       // Move to the next question in the current set
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    } else if (currentQuestionSet < Object.keys(quizData).filter(key => key.startsWith("questions")).length) {
+    } else if (
+      currentQuestionSet <
+      Object.keys(quizData).filter((key) => key.startsWith("questions")).length
+    ) {
       // Move to the next question set
       setCurrentQuestionSet((prevSet) => prevSet + 1);
       setCurrentQuestionIndex(0);
       setAnswers({});
     } else {
       console.log("Quiz completed!");
-      // Add logic for quiz completion
+      setIsQuizCompleted(true);
     }
 
     // Reset answer selection state
@@ -68,11 +73,11 @@ export default function Home() {
   // Calculate current overall question number
   const getCurrentOverallQuestionNumber = () => {
     let previousQuestionsCount = 0;
-    
+
     for (let i = 1; i < currentQuestionSet; i++) {
       previousQuestionsCount += quizData[`questions${i}`].length;
     }
-    
+
     return previousQuestionsCount + currentQuestionIndex + 1; // +1 because index is zero-based
   };
 
@@ -100,6 +105,11 @@ export default function Home() {
     trackMouse: true,
   });
 
+  const handleCloseModal = () => {
+    setIsQuizCompleted(false);
+    // Add any additional reset logic here if needed
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <Header
@@ -107,15 +117,20 @@ export default function Home() {
         totalQuestions={totalQuestions}
         correctAnswers={correctAnswers}
       />
-      <div className="flex-1 overflow-hidden pt-16"> 
-        <div className="relative h-full" {...handlers}>
-          <div
-            className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
-              isReadingVisible ? "translate-x-0" : "-translate-x-full"
-            }`}
-          >
-            <ReadingText content={readingTextContent} title={readingTextTitle} />
-          </div>
+
+<div className="flex-1 overflow-hidden pt-5">
+  <div className="relative h-full" {...handlers}>
+    <div
+      className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+        isReadingVisible ? "translate-x-0" : "-translate-x-full"
+      }`}
+    >
+      <ReadingText
+        content={readingTextContent}
+        title={readingTextTitle}
+      />
+    </div>
+
           <div
             className={`absolute mt-20 inset-2 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
               isReadingVisible ? "opacity-0" : "opacity-100"
@@ -126,6 +141,13 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {isQuizCompleted && (
+        <CompletionModal
+          score={correctAnswers}
+          totalQuestions={totalQuestions}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
