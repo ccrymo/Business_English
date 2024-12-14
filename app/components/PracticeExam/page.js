@@ -118,18 +118,18 @@ export default function Home() {
         correctAnswers={correctAnswers}
       />
 
-<div className="flex-1 overflow-hidden pt-5">
-  <div className="relative h-full" {...handlers}>
-    <div
-      className={`absolute inset-2 transition-transform duration-300 ease-in-out ${
-        isReadingVisible ? "translate-x-0" : "-translate-x-full"
-      }`}
-    >
-      <ReadingText
-        content={readingTextContent}
-        title={readingTextTitle}
-      />
-    </div>
+      <div className="flex-1 overflow-hidden pt-5">
+        <div className="relative h-full" {...handlers}>
+          <div
+            className={`absolute inset-2 h-[calc(100%-1rem)] transition-transform duration-300 ease-in-out ${
+              isReadingVisible ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <ReadingText
+              content={readingTextContent}
+              title={readingTextTitle}
+            />
+          </div>
 
           <div
             className={`absolute mt-20 inset-2 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
