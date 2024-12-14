@@ -8,6 +8,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'caveat-brush': ['var(--font-caveat-brush)'],
+        'outfit': ['var(--font-outfit)'],
+      },
       typography: ({ theme }) => ({
         white: {
           css: {

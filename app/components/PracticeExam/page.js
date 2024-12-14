@@ -121,7 +121,7 @@ export default function Home() {
 <div className="flex-1 overflow-hidden pt-5">
   <div className="relative h-full" {...handlers}>
     <div
-      className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+      className={`absolute inset-2 transition-transform duration-300 ease-in-out ${
         isReadingVisible ? "translate-x-0" : "-translate-x-full"
       }`}
     >
