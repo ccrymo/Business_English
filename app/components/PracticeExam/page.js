@@ -1,28 +1,32 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useSwipeable } from "react-swipeable";
 import Question from "./UI/Question";
 import ReadingText from "./UI/ReadingText";
 import SubmitButton from "./UI/SubmitButton";
 import Header from "./UI/Header";
 import CompletionModal from "./UI/CompletionModal";
 import quizData from "../../data/practiceExam/practiceExam";
+import QuizButton from "./UI/QuizButton";
 
 export default function Home() {
+  // State management
   const [currentQuestionSet, setCurrentQuestionSet] = useState(1);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [totalQuestions, setTotalQuestions] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [isAnswerSelected, setIsAnswerSelected] = useState(false);
-  const [isReadingVisible, setIsReadingVisible] = useState(true);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [isQuestionView, setIsQuestionView] = useState(false);
+  const [showAnswerOverlay, setShowAnswerOverlay] = useState(false);
+  const [isTimeUp, setIsTimeUp] = useState(false);
 
+  // Content from quiz data
   const readingTextContent = quizData.readingText;
   const readingTextTitle = quizData.readingTextTitle;
 
+  // Calculate total questions on component mount
   useEffect(() => {
-    // Calculate total questions across all sets
     const totalQuestionsCount = Object.keys(quizData)
       .filter((key) => key.startsWith("questions"))
       .reduce((total, key) => total + quizData[key].length, 0);
@@ -30,6 +34,12 @@ export default function Home() {
     setTotalQuestions(totalQuestionsCount);
   }, []);
 
+  // Timer handlers
+  const handleTimeUp = () => {
+    setIsTimeUp(true);
+  };
+
+  // Answer selection handler
   const handleSelect = (questionNumber, option) => {
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -38,76 +48,87 @@ export default function Home() {
     setIsAnswerSelected(true);
   };
 
-  const handleSubmit = () => {
-    console.log("Submitted answer:", answers);
+  // Overlay handlers
+  const handleOverlayClose = () => {
+    setShowAnswerOverlay(false);
+    moveToNextQuestion();
+  };
+
+  // Navigation handlers
+  const moveToNextQuestion = () => {
     const questionSet = quizData[`questions${currentQuestionSet}`];
-    const currentQuestion = questionSet[currentQuestionIndex];
-
-    // Check if the selected answer is correct
-    const selectedAnswer =
-      answers[`question${currentQuestionSet}_${currentQuestion.number}`];
-    if (selectedAnswer === currentQuestion.correctAnswer) {
-      setCorrectAnswers((prev) => prev + 1);
-    }
-
     if (currentQuestionIndex < questionSet.length - 1) {
-      // Move to the next question in the current set
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else if (
       currentQuestionSet <
       Object.keys(quizData).filter((key) => key.startsWith("questions")).length
     ) {
-      // Move to the next question set
       setCurrentQuestionSet((prevSet) => prevSet + 1);
       setCurrentQuestionIndex(0);
       setAnswers({});
     } else {
-      console.log("Quiz completed!");
       setIsQuizCompleted(true);
     }
-
-    // Reset answer selection state
     setIsAnswerSelected(false);
   };
 
-  // Calculate current overall question number
+  // Submit handler
+  const handleSubmit = () => {
+    const questionSet = quizData[`questions${currentQuestionSet}`];
+    const currentQuestion = questionSet[currentQuestionIndex];
+    const selectedAnswer =
+      answers[`question${currentQuestionSet}_${currentQuestion.number}`];
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+
+    if (isCorrect) {
+      setCorrectAnswers((prev) => prev + 1);
+    }
+
+    setShowAnswerOverlay(true);
+  };
+
+  // Question number calculator
   const getCurrentOverallQuestionNumber = () => {
     let previousQuestionsCount = 0;
-
     for (let i = 1; i < currentQuestionSet; i++) {
       previousQuestionsCount += quizData[`questions${i}`].length;
     }
-
-    return previousQuestionsCount + currentQuestionIndex + 1; // +1 because index is zero-based
+    return previousQuestionsCount + currentQuestionIndex + 1;
   };
 
+  // Question renderer
   const renderQuestions = () => {
     const questionSet = quizData[`questions${currentQuestionSet}`];
     if (!questionSet || currentQuestionIndex >= questionSet.length) return null;
 
     const q = questionSet[currentQuestionIndex];
+    const selectedAnswer =
+      answers[`question${currentQuestionSet}_${q.number}`];
+    const isCorrect = selectedAnswer === q.correctAnswer;
+
     return (
       <Question
         key={q.number}
         question={q.question}
         options={q.options}
         onSelect={(option) => handleSelect(q.number, option)}
-        type={q.title ? q.title : "Multiple Choice"}
-        instruction={q.instruction}
-        selectedAnswer={answers[`question${currentQuestionSet}_${q.number}`]}
+        selectedAnswer={selectedAnswer}
+        showOverlay={showAnswerOverlay}
+        isCorrect={isCorrect}
+        onOverlayClose={handleOverlayClose}
       />
     );
   };
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => setIsReadingVisible(false),
-    onSwipedRight: () => setIsReadingVisible(true),
-    trackMouse: true,
-  });
-
+  // Modal handlers
   const handleCloseModal = () => {
     setIsQuizCompleted(false);
-    // Add any additional reset logic here if needed
+    setIsTimeUp(false);
+  };
+
+  // View toggle handler
+  const toggleView = () => {
+    setIsQuestionView(!isQuestionView);
   };
 
   return (
@@ -116,36 +137,45 @@ export default function Home() {
         currentQuestion={getCurrentOverallQuestionNumber()}
         totalQuestions={totalQuestions}
         correctAnswers={correctAnswers}
+        onTimeUp={handleTimeUp}
+        timeLimit={3600} // 1 hour in seconds
       />
 
-      <div className="flex-1 overflow-hidden pt-5">
-        <div className="relative h-full" {...handlers}>
-          <div
-            className={`absolute inset-2 h-[calc(100%-1rem)] transition-transform duration-300 ease-in-out ${
-              isReadingVisible ? "translate-x-0" : "-translate-x-full"
-            }`}
-          >
-            <ReadingText
-              content={readingTextContent}
-              title={readingTextTitle}
-            />
-          </div>
+      <div className="flex flex-1 pt-16">
+        {/* Desktop View */}
+        <div className="hidden md:block md:w-1/2 h-full">
+          <ReadingText content={readingTextContent} title={readingTextTitle} />
+        </div>
+        <div className="mt-20 hidden md:block md:w-1/2 h-full p-4 overflow-y-auto">
+          {renderQuestions()}
+          <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+        </div>
 
-          <div
-            className={`absolute mt-20 inset-2 p-4 overflow-y-auto transition-opacity duration-300 ease-in-out ${
-              isReadingVisible ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            {renderQuestions()}
-            <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
-          </div>
+        {/* Mobile View */}
+        <div className="w-full md:hidden">
+          {!isQuestionView ? (
+            <div className="h-[calc(100vh-120px)] overflow-y-auto">
+              <ReadingText content={readingTextContent} title={readingTextTitle} />
+            </div>
+          ) : (
+            <div className="mt-10 h-[calc(100vh-120px)] p-4 overflow-y-auto">
+              {renderQuestions()}
+              <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+            </div>
+          )}
         </div>
       </div>
-      {isQuizCompleted && (
+
+      {/* Mobile Toggle Button */}
+      <QuizButton isQuestionView={isQuestionView} onClick={toggleView} />
+
+      {/* Modals */}
+      {(isQuizCompleted || isTimeUp) && (
         <CompletionModal
           score={correctAnswers}
           totalQuestions={totalQuestions}
           onClose={handleCloseModal}
+          isTimeout={isTimeUp}
         />
       )}
     </div>
