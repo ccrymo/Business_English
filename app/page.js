@@ -19,11 +19,11 @@ const Modal = () => {
 
           <div className="relevent pt-10">
             <h2 className="text-3xl font-bold text-white mb-6">
-              Choose the exam
+              Mock Exams:
             </h2>
             <Link href="./components/PracticeExam">
               <button className="w-full text-2xl font-bold py-3 px-6 rounded-lg bg-gradient-to-r from-neutral-800 to-neutral-900 hover:from-rose-700 hover:to-rose-950 hover:text-white text-white">
-                Exam practice
+                Final Reading Practice Exam 
               </button>
             </Link>
           </div>

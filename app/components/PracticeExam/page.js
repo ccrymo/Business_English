@@ -158,7 +158,7 @@ export default function Home() {
               <ReadingText content={readingTextContent} title={readingTextTitle} />
             </div>
           ) : (
-            <div className="mt-10 h-[calc(100vh-120px)] p-4 overflow-y-auto">
+            <div className="mt-10 h-[calc(100vh-120px)] p-4 pb-20 overflow-y-auto">
               {renderQuestions()}
               <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
             </div>
