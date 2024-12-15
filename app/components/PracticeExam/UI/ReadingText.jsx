@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import QuizButton from "./QuizButton";
 
 export default function ReadingText({ content, title, onQuizButtonClick }) {
   return (
@@ -11,7 +10,6 @@ export default function ReadingText({ content, title, onQuizButtonClick }) {
             <h2 className="text-4xl font-bold text-amber-400 font-caveat-brush">
               {title}
             </h2>
-            <QuizButton onClick={onQuizButtonClick} />
           </div>
           <p className="text-xl outfit-textFont">{content}</p>
         </div>

@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 
+import QuizButton from "./QuizButton";
+
 const Header = ({
-  title,
   currentQuestion,
   totalQuestions,
   correctAnswers,
   timeLimit = 3600,
   onTimeUp,
+  isQuestionView,
+  onToggleView,
 }) => {
   const [progress, setProgress] = useState(0);
 
@@ -31,19 +34,21 @@ const Header = ({
     if (progress < 75) return "bg-yellow-500";
     return "bg-red-500";
   };
-
   return (
     <div className="fixed top-0 left-0 right-0 z-10">
-      <header className="bg-stone-800 text-white p-4 flex justify-between items-center shadow-lg filter drop-shadow-2xl">
-        <div className="flex flex-row text-lg items-center">
-          <h1 className="text-2xl font-bold">Grade:</h1>
-          <p className="text-lg ml-5">{correctAnswers} / 53%</p>
+      <header className="bg-stone-800 text-white flex justify-between items-stretch shadow-lg filter drop-shadow-2xl">
+        <div className="flex items-center space-x-2 text-lg p-4">
+          <span className="font-bold">Progress:</span>
+          <span>
+            {currentQuestion}/{totalQuestions}
+          </span>
+          <span className="text-gray-400">|</span>
+          <span className="font-bold">Score:</span>
+          <span>
+            {correctAnswers}/{totalQuestions}
+          </span>
         </div>
-        <div className="flex flex-row text-lg items-center">
-          <span className="font-bold mr-2">Question</span>
-          <span className="mr-2">{currentQuestion}</span>
-          <span className="font-bold mr-2">of</span> {totalQuestions}
-        </div>
+        <QuizButton isQuestionView={isQuestionView} onClick={onToggleView} />
       </header>
       <div className="h-3 w-full bg-stone-700">
         <div

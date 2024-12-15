@@ -133,12 +133,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header
+     <Header
         currentQuestion={getCurrentOverallQuestionNumber()}
         totalQuestions={totalQuestions}
         correctAnswers={correctAnswers}
         onTimeUp={handleTimeUp}
         timeLimit={3600} // 1 hour in seconds
+        isQuestionView={isQuestionView}
+        onToggleView={toggleView}
       />
 
       <div className="flex flex-1 pt-16">
@@ -154,20 +156,17 @@ export default function Home() {
         {/* Mobile View */}
         <div className="w-full md:hidden">
           {!isQuestionView ? (
-            <div className="h-[calc(100vh-120px)] overflow-y-auto">
+            <div className="h-screen overflow-y-auto">
               <ReadingText content={readingTextContent} title={readingTextTitle} />
             </div>
           ) : (
-            <div className="mt-10 h-[calc(100vh-120px)] p-4 pb-20 overflow-y-auto">
+            <div className="mt-10 h-screen p-4 pb-20 overflow-y-auto">
               {renderQuestions()}
               <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
             </div>
           )}
         </div>
       </div>
-
-      {/* Mobile Toggle Button */}
-      <QuizButton isQuestionView={isQuestionView} onClick={toggleView} />
 
       {/* Modals */}
       {(isQuizCompleted || isTimeUp) && (
