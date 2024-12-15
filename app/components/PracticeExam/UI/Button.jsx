@@ -18,7 +18,7 @@ const Button = ({ children, onClick, colour, isSelected }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-full mt-4 text-2xl font-bold py-3 px-6 rounded-lg ${colourCheck(colour, isSelected)}`}
+      className={`w-full mt-4 text-xl font-bold py-3 px-6 rounded-lg ${colourCheck(colour, isSelected)}`}
     >
       {children}
     </button>

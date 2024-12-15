@@ -132,13 +132,13 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-     <Header
+    <div className="flex flex-col h-screen overflow-hidden">
+      <Header
         currentQuestion={getCurrentOverallQuestionNumber()}
         totalQuestions={totalQuestions}
         correctAnswers={correctAnswers}
         onTimeUp={handleTimeUp}
-        timeLimit={3600} // 1 hour in seconds
+        timeLimit={3600}
         isQuestionView={isQuestionView}
         onToggleView={toggleView}
       />
@@ -148,21 +148,29 @@ export default function Home() {
         <div className="hidden md:block md:w-1/2 h-full">
           <ReadingText content={readingTextContent} title={readingTextTitle} />
         </div>
-        <div className="mt-20 hidden md:block md:w-1/2 h-full p-4 overflow-y-auto">
-          {renderQuestions()}
-          <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+        <div className="hidden md:block md:w-1/2 h-full p-4 flex flex-col">
+          <div className="overflow-y-auto flex-grow">
+            {renderQuestions()}
+          </div>
+          <div className="mt-auto">
+            <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+          </div>
         </div>
 
         {/* Mobile View */}
         <div className="w-full md:hidden">
           {!isQuestionView ? (
-            <div className="h-screen overflow-y-auto">
+            <div className="h-[calc(100vh-120px)]">
               <ReadingText content={readingTextContent} title={readingTextTitle} />
             </div>
           ) : (
-            <div className="mt-10 h-screen p-4 pb-20 overflow-y-auto">
-              {renderQuestions()}
-              <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+            <div className="p-4 h-[calc(100vh-120px)] flex flex-col">
+              <div className="overflow-y-auto flex-grow">
+                {renderQuestions()}
+              </div>
+              <div className="mt-auto">
+                <SubmitButton onClick={handleSubmit} disabled={!isAnswerSelected} />
+              </div>
             </div>
           )}
         </div>
@@ -179,4 +187,5 @@ export default function Home() {
       )}
     </div>
   );
+  
 }
